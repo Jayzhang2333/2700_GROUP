@@ -1,0 +1,6 @@
+Overview-
+* Contains 8 PWM channels 
+
+Contains-
+* Resets
+Interrupts

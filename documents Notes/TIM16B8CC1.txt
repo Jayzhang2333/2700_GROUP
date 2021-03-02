@@ -1,0 +1,8 @@
+* 16 bit counter driven be seven stage programmable prescaler
+
+Contains-
+* Modes of operation
+* Block Diagrams 
+* Use of different pins
+* Registers used
+* Functional Block Diagram

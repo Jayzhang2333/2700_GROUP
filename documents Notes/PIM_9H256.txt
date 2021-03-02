@@ -1,0 +1,3 @@
+Enables the interface between the peripheral modules abd I/O pins for all ports except for port AD.
+
+Contains uses of each port

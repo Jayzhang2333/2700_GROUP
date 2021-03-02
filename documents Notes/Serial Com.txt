@@ -1,0 +1,19 @@
+Serial Communication Interface
+
+Purpose-
+Provides information in the SCI on the board.
+Provides modes of operation
+Has block diagrams
+Error handling
+
+
+* SCI allows asynchronus serial communications with peripheral devices
+
+Modes of Operation-
+* Run Mode
+* Wait Mode
+* Stop Mode
+
+External Pins
+* TXD-SCI Transmit Pin
+* RXD-SCI Receive Pin

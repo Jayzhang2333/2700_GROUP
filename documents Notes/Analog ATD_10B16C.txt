@@ -1,0 +1,14 @@
+Overview
+* 16 channel 10 bit analog-to-digital converter
+
+Modes of Operation
+* Stop Mode
+* Wait Mode
+* Freeze Mode
+
+
+Contains-
+* Block Diagram
+* What each pin is used for
+* Memory Map and Register Defintion
+* Functional Description
