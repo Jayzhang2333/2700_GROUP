@@ -1,0 +1,4 @@
+HCS12-Device-information-9S12DT256DGV3
+
+The mian purpose of this document is to introduce the feature and function of the HCS12 with specific detials of different parts and signal description.
+It also inllustrate the operation mode and method to reset 
