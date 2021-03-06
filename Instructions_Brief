@@ -1,0 +1,13 @@
+This document contains an outline of the topics covered in the instructions manual for the device
+
+1. The different registers
+2. Stack and Memory Layout
+3. Interrupt Vector Locations
+4. Notation used in Instruction Set Summary
+5. Explanation of italic expressions in source form column
+6. Different Operator Types
+7. Address mode notation
+8. Machine Coding
+9. Access Detail
+10. Condition Codes Columns
+11. Instruction Set Summaries (14 pages, and most likely where we will find code for code_warrior)
