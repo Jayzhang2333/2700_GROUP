@@ -8690,14 +8690,14 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-Counter     DS.W 1
-FiboRes     DS.W 1
-
-string: fcc "Hello World"; string to be altered
-
+output_string   ds.b 16 ; allocates 16 bytes to the address of output string
+input_string    fcc "Hello World"; string to be altered 
+test_hex        ds.b 1 ; one byte to store the hex code for the bit mask
+test_count      ds.b 1;  one byte to store the count 
+string_length   ds.b 1; one byte for string length
 
 ; code section
-            ORG   ROMStart
+            ORG    ROMStart
 
 
 Entry:
@@ -8706,19 +8706,49 @@ _Startup:
 
             CLI                     ; enable interrupts
             
-            ldx #string           ; load string to register x
+            
 
 mainLoop:
+
+            ldaa #$20     ; load bit mask into A
+            staa test_hex   ; store in test_hex
             
-            bra lower
+            ldaa  #0
+            staa test_count ; store test_count as 0
+            
+            ldaa #$10 ; store the value 16 as length of string
+            staa string_length
+            
+            ldx #input_string           ; load string to register x
+            ldy #output_string  
+             
             
             
-lower:
-            ldaa 1,X+             ;load to A value in register X and increment by 1 on next loop
+innerLoop:
+            ldab 1,X+             ;load to B value in register X and increment by 1 on next loop
             
             ; to change from upper to lower case,change the 32_bit to be 1
             
-            oraa $20 ; perform an OR operation to change bit 32 to be 1 of the value in A
+            bitb test_hex ; perform an OR operation to change bit 32 to be 1 of the value in B
+            
+            bne skipUpdate   ; if AND satisfied, branch to skipUpdate
+            
+            ldab #$00
+            
+             
+            inc test_count ; incerement test_count
+            
+
+
+skipUpdate:
+            
+            stab 0,y ; store new value in B into y
+
+            iny ; increment y
+            
+            deca ;decrement a 
+            
+            bne innerLoop
             
             bra mainLoop ; return to main loop
             
