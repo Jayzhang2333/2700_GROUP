@@ -47,7 +47,7 @@ SCI_setup:
 ; we need to wait for the RDRF to be set (to 1), so brclr will branch itself if RDRF is 0   
 ; until RDRF is 1, it will go to the next line to load the message         
 getcSCI1:
-            brclr SCI1SR1, SCI1SR1_RDRF,getcSCI1
+            brclr SCI1SR1, mSCI1SR1_RDRF,getcSCI1
             ldaa  SCI1DRL
             staa  1,x+
             bra getcSCI1
