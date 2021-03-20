@@ -63,11 +63,12 @@ Input:
             
 return: 
             rts ; Return from subroutine  
+                        
             
 Read:
             ldaa 1,x+   ; Load character pointed by X and increment x
             cmpa #$0D
-            beq return  ; If NULL return to main program
+            beq Write   ; If NULL return to main program, after writing the newline character
             jsr Write   ; If not NULL write character to serial  
             bra Read    ; Loop until all characters are read
                                 
