@@ -36,13 +36,13 @@ _Startup:
 
           ldx  #string
 Start:
-        jsr up2low
-        ldx #string
-        jsr low2up
-        ldx #string
-        jsr CapWord
-        ldx #string
-        jsr CapSen
+        jsr up2low      ; jump to up2low
+        ldx #string     ; load string to register X
+        jsr low2up      ; jump to low2up
+        ldx #string     ; load adjusted string to X
+        jsr CapWord     ; jump to CapWord
+        ldx #string     ; load adjusted string to X
+        jsr CapSen      ; jump to CapSen
         
 
 
@@ -50,23 +50,23 @@ Start:
 
 
 
-low2up: 
-        psha
+low2up:                 ; function to raise all lower case characters to upper case 
+        psha            ; push to stack 
 loop_up:
-        ldaa 0,x
+        ldaa 0,x        ;load character from X with no offset
         beq done
-        cmpa #$61
-        blo next_up
-        cmpa #$7A
-        bhi next_up
-        suba #$20
-        staa 0,x
+        cmpa #$61       ; compare A with hex value of 61 (a in ASCII)
+        blo next_up     ; if A less than value of $61, branch to next_up 
+        cmpa #$7A       ; compare A with hex value $7A (z in ASCII)
+        bhi next_up     ; branch to next_up if A higher than $7A
+        suba #$20       ; subtract hex $20 from A (converts to upper case ASCII code)
+        staa 0,x        ; store value in A in X
 next_up:
-        inx
-        bra loop_up
+        inx             ; increment pointer in X
+        bra loop_up     ; branch to loop_up
 done:
-        pula
-        rts
+        pula            ; pull from stack
+        rts             ; return
   
   
   
@@ -74,7 +74,7 @@ done:
  
  
       
-up2low:
+up2low:                ;
         psha
 loop_low:
         ldaa 0,x

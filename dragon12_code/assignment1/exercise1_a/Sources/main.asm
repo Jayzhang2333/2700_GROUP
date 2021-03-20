@@ -24,7 +24,8 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
             ORG RAMStart
  ; Insert here your data definition.
 output_string   ds.b 16 ; allocates 16 bytes to the address of output string
-input_string    fcc "Hello World"; string to be altered 
+input_string    fcc "Hello World"; string to be altered
+end_sign        dc.b 0 ; set end sign after string 
 test_hex        ds.b 1 ; one byte to store the hex code for the bit mask
 test_count      ds.b 1;  one byte to store the count 
 string_length   ds.b 1; one byte for string length
@@ -38,7 +39,12 @@ Entry:
 _Startup:
             LDS   #RAMEnd+1       ; initialize the stack pointer
 
-            CLI                     ; enable interrupts
+            CLI
+            
+                                 ; enable interrupts
+                                 
+            ldx #input_string           ; load string to register x
+
             
             
 
@@ -53,7 +59,6 @@ mainLoop:
             ldaa #$10 ; store the value 16 as length of string
             staa string_length
             
-            ldx #input_string           ; load string to register x
             ldy #output_string  
              
             
@@ -82,6 +87,11 @@ innerLoop:
             bne innerLoop
             
             bra mainLoop ; return to main loop
+            
+            
+upper2lower:
+
+upper:
             
 
 
