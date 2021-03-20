@@ -51,7 +51,7 @@ read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
             ldaa  SCI1DRL
             staa  1,x+
             ;compare with the ASCII carriage sign
-            cmpa  #$13
+            cmpa  #$0D
             beq writecSCI1
             bra read           
 
