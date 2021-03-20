@@ -23,9 +23,9 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-test_string     fcc "Hello World"; string to be altered   
-return_char     dc.b 13,0 ; set 1 byte for the return character to come after string
-function_char   fcb $41 ; set 1 byte for char to choose which function to run
+;test_string     fcc "Hello World"; string to be altered   
+;return_char     dc.b 13,0 ; set 1 byte for the return character to come after string
+;function_char   fcb $41 ; set 1 byte for char to choose which function to run
 string_buffer   rmb 100 ; reserve 100 bytes for the string sent from serial
 
 
@@ -38,7 +38,7 @@ _Startup:
             LDS   #RAMEnd+1       ; initialize the stack pointer
 
             CLI                     ; enable interrupts
-mainLoop:
+setup:
 
         ; configure the serial port
         
@@ -47,53 +47,39 @@ mainLoop:
         movb #$4C, SCI1CR1  ; select 8 data bits, address mark wake-up
         movb #$0C, SCI1CR2   ; enable transmitter and receiver
         
+        
+        ;ldx #test_string ; load string to register x
+        
+        
+mainLoop:
         bsr delay
         
-        ldx #test_string ; load string to register x
+        ldx #RAMStart; set X to be start of RAM
         
+        jsr getcSCI1; jump to function to read serial input
         
-functionTest:
-        ldaa function_char ; load char to A
+        ldx #RAMStart; reset X to be start of RAM
         
-        cmpa #$41 ; see if the char in A is 65 in ASCII
+        jsr putcSCI1; jump to function to output serial input
         
-        beq writeLoop ; if equal branch to outputLoop
+        bra mainLoop;  
         
-        bne readLoop ;if not equal branch to readLoop
-
-
-writeLoop:
-        
-        ldaa 1,x+ ;load to A character in X and point to next character
-                
-        jsr putcSCI1 ;jump to subroutine
-          
-        ;cmpa return_char  ;check if the next character is the return character
-        
-        beq mainLoop ; jump to main loop if current memory is equal to zero
-        
-        bra writeLoop  ; branch to write loop
+ 
         
         
         
 putcSCI1:
+
+        ldaa 1,x+ ;load to A character in X and point to next character
               
         brclr SCI1SR1, mSCI1SR1_TDRE,* ; wait for TDRE to be set. * means to jump back to same address
         
-        staa SCI1DRL ; output character
-                
+        staa SCI1DRL ; store into SCI1DRL character character in a
+        
+        bne putcSCI1; loop back to start of function if end of string not reached
+        
         rts
                 
-        
-readLoop:
-                        
-        jsr getcSCI1 ;jump to subroutine
-          
-        ;cmpa return_char  ;check if the next character is the return character
-        
-        beq mainLoop ; jump to main loop if current memory is equal to zero
-        
-        bra readLoop  ; branch to write loop
         
         
 getcSCI1:
