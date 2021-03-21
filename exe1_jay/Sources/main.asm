@@ -23,8 +23,8 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-string fcc "This is"
-end_sign dc.b 0
+string fcc "hello. world"   ; test string
+end_sign dc.b 0        ; place end sign at end of string
 
 
 
@@ -74,19 +74,19 @@ done:
  
  
       
-up2low:                ;
+up2low:                ;function to lower all upper case characters to lower case
         psha
 loop_low:
-        ldaa 0,x
-        beq done
-        cmpa #$61
-        bhi next_low
-        cmpa #$41
-        blo next_low
-        adda #$20
-        staa 0,x
+        ldaa 0,x       ; load to A pointed value in X with no offset
+        beq done       ; if empty, branch to done
+        cmpa #$5A      ; compare with hex value 5A (Z in ASCII)
+        bhi next_low   ; branch to next_low if character in A higher than 5A
+        cmpa #$41      ; compare A with hex value 41 (A in ASCII)
+        blo next_low   ; branch to next_low if character in A lower than 41
+        adda #$20      ; Add 20 in hex (32 in decimal) to convert to lower case
+        staa 0,x       ; Store A into current pointed value in X
 next_low:
-        inx
+        inx            ; Increment X
         bra loop_low
         
 
@@ -98,26 +98,26 @@ next_low:
 
 CapWord:
         psha
-        jsr up2low
-        ldx #string
-        jsr check_up
+        jsr up2low     ; First convert all characters to lower case
+        ldx #string    ; load string to X
+        jsr check_up   ; jump to check_up
                
-loop_word:
+loop_word:             ; will loop through string until the end of a word is reached
         ldaa 0,x
-        beq done
-        ldaa -1,x
-        cmpa #$20
+        beq done       ; branch to done if X is empty
+        ldaa -1,x      ;
+        cmpa #$20      ; check if stack pointer
         bne next_word
         jsr check_up
         
-next_word:
+next_word:             ; used to set up loop_word function by incrementing X
         inx
         bra loop_word   
 
-check_up:
+check_up:             ; Checks if the current if character is lower case. If so, convert to upper case
         ldaa 0,x
         cmpa #$61
-        blo next_word
+        blo next_word  ; jumps to next word instead of next character
         cmpa #$7A
         bhi next_word
         suba #$20
@@ -131,7 +131,7 @@ check_up:
 
 
 
-CapSen:
+CapSen:               ; function to capitalise start of each sentence
         psha
         jsr up2low
         ldx #string
@@ -140,11 +140,11 @@ CapSen:
 loop_sen:
         ldaa 0,x
         beq done
-        ldaa -1,x
-        cmpa #$20
-        bne next_sen
-        ldaa -2,x
-        cmpa #$2E
+        ldaa -1,x     ; check previous character
+        cmpa #$20     ; compare character with hex 20 (SPACE in ASCII)
+        bne next_sen  ; branch not equal
+        ldaa -2,x     ; check previous character 2 spaces back
+        cmpa #$2E     ; compare character with hex 2E ( . in ASCII)
         bne next_sen
         jsr check_up
         
