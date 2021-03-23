@@ -91,11 +91,12 @@ Input:
             bra Input ; If no carriage return then loop for more input characters
 
 Read:
+            ldx #buffer ; reset X to start of buffer
             ldaa 1,x+   ; Load character pointed by X and increment x
             cmpa #$0D   ; compare carriage return
             beq Write   ; If NULL return to main program, after writing the newline character
             jsr Write   ; If not NULL write character to serial
-            ;beq Start  
+            beq Start  
             bra Read    ; Loop until all characters are read
             
                         
@@ -114,6 +115,7 @@ low2up:                 ; function to raise all lower case characters to upper c
         psha            ; push to stack 
 loop_up:
         ldaa 0,x        ;load character from X with no offset
+        cmpa #13
         beq done
         cmpa #$61       ; compare A with hex value of 61 (a in ASCII)
         blo next_up     ; if A less than value of $61, branch to next_up 
@@ -168,6 +170,7 @@ CapWord:
                
 loop_word:             ; will loop through string until the end of a word is reached
         ldaa 0,x
+        cmpa #13
         beq done       ; branch to done if X is empty
         ldaa -1,x      ;
         cmpa #$20      ; check if stack pointer
