@@ -93,7 +93,7 @@ Input:
 Read:
             ldaa 1,x+   ; Load character pointed by X and increment x
             cmpa #$0D   ; compare carriage return
-            beq Write   ; If NULL return to main program, after writing the newline character
+            beq Final_Write   ; If NULL return to main program, after writing the newline character
             jsr Write   ; If not NULL write character to serial
             beq Start  
             bra Read    ; Loop until all characters are read
@@ -104,9 +104,16 @@ return:
             
             
 Write:
-            brclr SCI1SR1, mSCI1SR1_TDRE, Write ; Check if there has been a transmission. If so then go to next step
+            brclr SCI1SR1, mSCI1SR1_TDRE, * ; Check if there has been a transmission. If so then go to next step
             staa SCI1DRL    ; Write to serial
             rts             ; Return to read function
+            
+            
+Final_Write:
+
+            brclr SCI1SR1, mSCI1SR1_TDRE, * ; Check if there has been a transmission. If so then go to next step
+            staa SCI1DRL                        ; Write to serial
+            bra  Start                          ; Return to read function
             
             
             
