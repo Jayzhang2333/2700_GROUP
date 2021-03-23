@@ -91,7 +91,6 @@ Input:
             bra Input ; If no carriage return then loop for more input characters
 
 Read:
-            ldx #buffer ; reset X to start of buffer
             ldaa 1,x+   ; Load character pointed by X and increment x
             cmpa #$0D   ; compare carriage return
             beq Write   ; If NULL return to main program, after writing the newline character
@@ -130,6 +129,7 @@ next_up:
 
 done:
         pula            ; pull from stack
+        ldx #buffer ; reset X to start of buffer
         bra Read                ; return
   
   
