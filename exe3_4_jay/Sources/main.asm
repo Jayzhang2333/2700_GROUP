@@ -56,6 +56,8 @@ read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
             bra read           
 
 
+
+
 ;**************************write to serial**************************                                      
 writecSCI1:
            ldx #RAMStart
@@ -80,7 +82,7 @@ delay_done:
            
         
         
- ; one second delay
+;*****************************one second delay*****************************
 delay:
           pshx
           pshy
