@@ -43,6 +43,7 @@ Start:
         jsr CapWord     ; jump to CapWord
         ldx #string     ; load string to register X
         jsr CapSen      ; jump to CapSen
+        bra Start
         
 
 

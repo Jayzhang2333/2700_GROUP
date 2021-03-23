@@ -8706,9 +8706,9 @@ Start:
         jsr up2low      ; jump to up2low
         ldx #string     ; load string to register X
         jsr low2up      ; jump to low2up
-        ldx #string     ; load adjusted string to X
+        ldx #string     ; load string to register X
         jsr CapWord     ; jump to CapWord
-        ldx #string     ; load adjusted string to X
+        ldx #string     ; load string to register X
         jsr CapSen      ; jump to CapSen
         
 
@@ -8784,11 +8784,11 @@ next_word:             ; used to set up loop_word function by incrementing X
 check_up:             ; Checks if the current if character is lower case. If so, convert to upper case
         ldaa 0,x
         cmpa #$61
-        blo next_word  ; jumps to next word instead of next character
+        blo next_word  ; jumps to next word instead of next character if character below $61
         cmpa #$7A
         bhi next_word
-        suba #$20
-        staa 0,x
+        suba #$20      ; convert to upper case by subtracting $20 from character
+        staa 0,x       ; store A into X, no offset
         rts
         ;bra next_word
 
