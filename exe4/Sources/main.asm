@@ -49,6 +49,8 @@ Button_Setup:
 
             
 Bit_Setting:
+
+            
             movb #$00, SCI1BDH    ; Set bits to zero
             movb #156, SCI1BDL    ; Set baud rate to 9600
             movb #$4C, SCI1CR1    ; Set 8 bit word length, and wake up bit
