@@ -65,7 +65,7 @@ display:
             
             ldab PTH
             jsr delay
-            cmpb #$01
+            cmpb #$FE
             beq  Next
             bra display    
 Next:
