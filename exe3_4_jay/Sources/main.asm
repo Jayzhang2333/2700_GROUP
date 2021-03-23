@@ -51,7 +51,7 @@ read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
             ldaa  SCI1DRL
             staa  1,x+
             ;compare with the ASCII carriage sign
-            cmpa  #$13
+            cmpa  #13
             beq writecSCI1
             bra read           
 
@@ -63,6 +63,7 @@ writecSCI1:
 
 Read_char:  
             ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
+            cmpa #13
             beq delay_done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
             jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
             bra Read_char         ; After writing the character, go back to read the second character    
@@ -73,7 +74,8 @@ write_char:
             rts         
             
 delay_done:
-        jsr delay
+        jsr write_char
+        ;jsr delay
         bra getcSCI1
            
         
