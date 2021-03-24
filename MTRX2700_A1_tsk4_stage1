@@ -1,1 +1,40 @@
-<mxfile host="app.diagrams.net" modified="2021-03-24T10:10:10.983Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" version="14.5.1" etag="yNcDu9JB0zCVaziO5cHx" type="github"><diagram id="PtIWjviyGUpcMtudTwxZ">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-03-24T10:24:47.315Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="5tZ1tIOwhQtX7FyCAe-K" version="14.5.1" type="github">
+  <diagram id="PtIWjviyGUpcMtudTwxZ" name="Page-1">
+    <mxGraphModel dx="1502" dy="636" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tUXypRIVu7VMRiX77JGt-1" value="Check RDRF set" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="110" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-2" value="Is RDRF set?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="412.5" y="200" width="115" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-3" value="&#xa;&#xa;&lt;b style=&quot;font-weight: normal&quot; id=&quot;docs-internal-guid-699fab8b-7fff-673f-ce1f-79aabc1efcfd&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.38 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 11pt; font-family: arial; color: rgb(0, 0, 0); background-color: transparent; font-weight: 400; font-style: normal; font-variant: normal; text-decoration: none; vertical-align: baseline;&quot;&gt;Load to accumulator A byte from serial&lt;/span&gt;&lt;/p&gt;&lt;/b&gt;&lt;br class=&quot;Apple-interchange-newline&quot;&gt;&#xa;&#xa;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="379" y="310" width="182" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-4" value="&lt;br&gt;&lt;br&gt;&lt;b style=&quot;font-weight: normal&quot; id=&quot;docs-internal-guid-699fab8b-7fff-673f-ce1f-79aabc1efcfd&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.38 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;/p&gt;&lt;/b&gt;&lt;span id=&quot;docs-internal-guid-1ca0472a-7fff-a5c1-76e9-42f97206f492&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.38 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;Store byte in accumulator A into register X&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;div&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="359.5" y="410" width="221" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-5" value="Increment register X by 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="395" y="530" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-6" value="&lt;span id=&quot;docs-internal-guid-3103c136-7fff-8234-5107-33a1b1aa54b8&quot;&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;Compare byte with A to hex value $31&lt;/span&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="395" y="620" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-7" value="Is A less than $30?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="700" width="140" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-8" value="Is A greater than $39" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="405" y="930" width="130" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-9" value="&lt;span id=&quot;docs-internal-guid-11477720-7fff-21d7-2173-36a19e117418&quot;&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;Compare byte in A to hex value $39&lt;/span&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="395" y="870" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="tUXypRIVu7VMRiX77JGt-11" value="&lt;span id=&quot;docs-internal-guid-cc8fab36-7fff-9ebd-694f-90c7ca247d9c&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.38 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;Store byte in A to memory reserved for numbers in string&lt;/span&gt;&lt;/p&gt;&lt;div&gt;&lt;span style=&quot;font-size: 11pt ; font-family: &amp;#34;arial&amp;#34; ; background-color: transparent ; vertical-align: baseline&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="1100" width="210" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
