@@ -8720,6 +8720,9 @@ mainLoop:
             clra
             LDX #LOOKUP_NUM
             LDY #LOOKUP_LED
+ 
+ 
+ 
             
 press_change:
             LDAB  Y               ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
@@ -8727,12 +8730,7 @@ press_change:
 display:      
             LDAB  X               ; Load register A as the CONTENT IN MEMORY POINTED BY X (Decoded letter)
             STAB  PORTB  
-            
-           
-            
             ldab PTH
-           
-            
             jsr delay
             ;by pressing the button, that bit is changed into low 0
             ;therefore compared with 11111110 is checking the last button whether is being pressed
@@ -8752,7 +8750,10 @@ back:
             clra
             ldx #LOOKUP_NUM
             bra display 
-            
+
+
+
+;************************one second delay******************************            
 delay:  
           psha
           pshx
