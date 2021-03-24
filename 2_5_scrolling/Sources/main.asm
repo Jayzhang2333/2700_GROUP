@@ -101,7 +101,6 @@ g4_loop:
             beq   use_back
             dbne A, g4_loop
 
-             
 use_back:
          
          ;I don't know why index addressing has error here, 6,#LOOPUP_NUM
@@ -112,7 +111,8 @@ use_back:
          ;make sure we don't overflow A
          cmpa  #$00
          beq   done
-         dbne A, g4_loop   
+         dbne A, g4_loop                
+
             
 done:       
             puly
