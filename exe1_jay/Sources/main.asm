@@ -23,9 +23,8 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-string fcc "hello. world"   ; test string
+string fcc "ThIS is A vAlId INpUt. This is also a valid input."   ; test string
 end_sign dc.b 0        ; place end sign at end of string
-
 
 
 ; code section
@@ -33,6 +32,7 @@ end_sign dc.b 0        ; place end sign at end of string
 Entry:
 _Startup:
           LDS   #RAMEnd+1       ; initialize the stack pointer
+
 
           ldx  #string
 Start:
