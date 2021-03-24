@@ -8713,6 +8713,8 @@ mainLoop:
             STAA  DDRJ            ; Set port B,P, J as outputs
             ;LDD   #4000           ; Load register D as 4000 for 0.5ms delay
 
+
+;***************************DISPLAY FUNCTION********************************************
 inf_loop    LDX   #LOOKUP_NUM   
             LDY   #LOOKUP_LED     ; Load index pointers X and Y with the initial address of the look up tables.
             LDAA   #NUM_WORDS + 1 ; Load a register as number of words
@@ -8736,7 +8738,7 @@ DISP_LETTER LDAB  Y               ; Load register B as the CONTENT IN MEMORY POI
             INX
             INY                   ; After the display, we increase one to both X and Y pointer in order to point to the next char.
             BRA   DISP            
-            
+;**************************0.5 ms delay**********************************************            
             
 DELAY       
             dbne D, DELAY
