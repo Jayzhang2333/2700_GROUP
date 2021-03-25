@@ -55,8 +55,8 @@ Config_io:  LDAA  #$FF            ;Load register A with all ones.
             clrb                  ;Clear register B
             
 ;**********************Press Change function********************************
-;Input: Press button of PH0, Display string, 7-Segs location on port p
-;Output: 7-Segs display a new number once PH0 being pressed             
+;Inputs: Press button of PH0, Display string, 7-Segs location on port p
+;Outputs: 7-Segs display a new number once PH0 being pressed             
 press_change:
             LDX #LOOKUP_NUM       ;Load X to the head of numbers need to display
             LDY #LOOKUP_LED       ;Load Y to the head of memory where the location of 7-Segs are stored
