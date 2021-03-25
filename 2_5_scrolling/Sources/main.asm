@@ -52,6 +52,8 @@ _Startup:
             STAA  DDRB
             STAA  DDRP            
             STAA  DDRJ
+            STAB  PTJ
+            STAB  PTP
             ldx #LOOKUP_NUM          
 mainLoop:
         

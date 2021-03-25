@@ -23,7 +23,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-LOOKUP_NUM     DC.B    $06, $5B, $4F, $66, $6D, $7D, $07, $7F, $67
+LOOKUP_NUM     DC.B    $3F,$06, $5B, $4F, $66, $6D, $7D, $07, $7F, $67
 ;LOOKUP_NUM      dc.b   $3F, $5B, $6d, $66 
 LOOKUP_LED       DC.B    $0E, $0D, $0B, $07
 NUM_WORDS        EQU     4
@@ -45,6 +45,8 @@ mainLoop:
             STAA  DDRB
             STAA  DDRP            
             STAA  DDRJ            ; Set port B,P, J as outputs
+            STAB  PTJ
+            STAB  PTP
             ;LDD   #4000           ; Load register D as 4000 for 0.5ms delay
 
 
