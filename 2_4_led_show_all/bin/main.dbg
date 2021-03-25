@@ -8731,7 +8731,7 @@ DISP_LETTER LDAB  Y               ; Load register B as the CONTENT IN MEMORY POI
                         
             PSHA 
             pshb 
-            LDD    #10000                ; Preserve the A register before BSR as it will change the value of registers
+            LDD    #4000                ; Preserve the A register before BSR as it will change the value of registers
             BSR   DELAY           ; Delay 0.5 ms
             pulb
             PULA
