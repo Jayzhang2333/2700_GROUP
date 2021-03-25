@@ -25,7 +25,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
  ; Insert here your data definition.
  ;just till five follows with a null which is empty
  ; 0 1 2 3 4 5 null
-LOOKUP_NUM     DC.B    $3F, $30, $5B, $4F, $66, $6D, $ff
+LOOKUP_NUM     DC.B    $3F, $30, $5B, $4F, $66, $6D, $00
 TAIL_STEP EQU 6
 ;reverse direction led layout
 LOOKUP_LED       DC.B    $07, $0B, $0D, $0E
@@ -120,7 +120,7 @@ done:
             puly
             pulx
             ldab  X
-            cmpb  #$ff;here
+            ;cmpb  #$ff;here
             beq back_x
             inx
             INC X_Position
