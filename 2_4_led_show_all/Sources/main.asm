@@ -63,7 +63,8 @@ DISP_LETTER LDAB  Y               ; Load register B as the CONTENT IN MEMORY POI
             STAB  PTP             ; Store the info into Port P to enable selected LEDs
             LDAB  X               ; Load register A as the CONTENT IN MEMORY POINTED BY X (Decoded letter)
             STAB  PORTB           ; Store the info into port B to light up the LED
-                        
+            
+                       
             PSHA 
             pshb 
             LDD    #4000                ; Preserve the A register before BSR as it will change the value of registers

@@ -45,17 +45,20 @@ mainLoop:
             STAA  DDRP            
             STAA  DDRJ            ; Set port B,P, J as outputs
             STAB  PTJ
-            STAB  PTP
+            STAA  PTP
             ;LDD   #4000           ; Load register D as 4000 for 0.5ms delay
 
             ;$0E, $0D, $0B, $07
             ;$ff $df
-            
-             LDAB  #$0B
-            STAB  PTP 
+            ldaa #$ff
+            STAA  PTP
                           ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
             ldaa #$DF
             staa PORTB
+            
+            
+            LDAB  #$0B
+            STAB  PTP 
             
             
 

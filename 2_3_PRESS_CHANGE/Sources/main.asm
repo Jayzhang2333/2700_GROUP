@@ -49,7 +49,8 @@ mainLoop:
             ;here we are setting it to output #$FF
             STAB  DDRH            ; configure port H as input
             ;Do we need to ground port P to enable 7_seg?
-            ;STAB  PTP             ;Enable 7-seg
+            STAB  PTP             ;Enable 7-seg
+            STAB  PTJ
             clra
             LDX #LOOKUP_NUM
             LDY #LOOKUP_LED
@@ -59,7 +60,7 @@ mainLoop:
             
 press_change:
             ;LDAB  Y               ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
-            ldab #$07
+            ldab #$0E
             STAB  PTP             ; Store the info into Port P to enable selected LEDs 
 display:      
             LDAB  X               ; Load register A as the CONTENT IN MEMORY POINTED BY X (Decoded letter)
