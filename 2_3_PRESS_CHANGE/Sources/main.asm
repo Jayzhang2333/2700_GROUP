@@ -58,7 +58,8 @@ mainLoop:
  
             
 press_change:
-            LDAB  Y               ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
+            ;LDAB  Y               ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
+            ldab #$07
             STAB  PTP             ; Store the info into Port P to enable selected LEDs 
 display:      
             LDAB  X               ; Load register A as the CONTENT IN MEMORY POINTED BY X (Decoded letter)
