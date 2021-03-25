@@ -23,7 +23,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-LOOKUP_NUM     DC.B    $3F, $06, $5B, $4F, $66, $6D, $7D, $07, $7F, $67 
+LOOKUP_NUM     DC.B    $3F, $30, $5B, $4F, $66, $6D, $7D, $07, $7F, $67 
 LOOKUP_LED       DC.B    $0E, $0D, $0B, $07
 NUM_WORDS        EQU     4
 
