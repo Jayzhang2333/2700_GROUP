@@ -23,8 +23,8 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-;LOOKUP_NUM     DC.B    $3F, $06, $5B, $4F, $66, $6D, $7D, $07, $7F, $67
-LOOKUP_NUM      dc.b   $3F, $5B, $6d, $66 
+LOOKUP_NUM     DC.B    $06, $5B, $4F, $66, $6D, $7D, $07, $7F, $67
+;LOOKUP_NUM      dc.b   $3F, $5B, $6d, $66 
 LOOKUP_LED       DC.B    $0E, $0D, $0B, $07
 NUM_WORDS        EQU     4
 
@@ -64,7 +64,7 @@ DISP_LETTER LDAB  Y               ; Load register B as the CONTENT IN MEMORY POI
                         
             PSHA 
             pshb 
-            LDD    #4000                ; Preserve the A register before BSR as it will change the value of registers
+            LDD    #10000                ; Preserve the A register before BSR as it will change the value of registers
             BSR   DELAY           ; Delay 0.5 ms
             pulb
             PULA
