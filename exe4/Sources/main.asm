@@ -201,7 +201,7 @@ check_up:             ; Checks if the current if character is lower case. If so,
             
             
             
-Delay:  
+Delay:                 ;push A, X and Y onto stack to preserve them after delay 
           psha
           pshx
           pshy
