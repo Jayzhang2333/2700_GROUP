@@ -23,6 +23,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
+ buffer rmb 100
 
 
 ; code section
@@ -36,24 +37,23 @@ _Startup:
             CLI                     ; enable interrupts
 
 SCI_setup:              
-            movb  #$00,SCI1BDH
-            movb  #156,SCI1BDL
-            movb  #$4c,SCI1CR1
-            movb  #$0c,SCI1CR2
+            movb  #$00,SCI1BDH       ; Set bits in SCI1BDH to 0
+            movb  #156,SCI1BDL       ; Sets baud rate to 9600
+            movb  #$4c,SCI1CR1       ; Sets 8 bit data and wake up bit
+            movb  #$0c,SCI1CR2       ; Enables transmissions and receiving
             
             
 ;*****************************read from seria****************************
 ; we need to wait for the RDRF to be set (to 1), so brclr will branch itself if RDRF is 0   
 ; until RDRF is 1, it will go to the next line to load the message         
 getcSCI1:
-            ldx   #RAMStart
-read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
-            ldaa  SCI1DRL
-            staa  1,x+
-            ;compare with the ASCII carriage sign
-            cmpa  #13
-            beq writecSCI1
-            bra read           
+            ldx   #RAMStart                     ; Loads X with address $1000 where string buffer is located
+read:       brclr SCI1SR1, mSCI1SR1_RDRF,read   ; Waits for a byte to be received to continue
+            ldaa  SCI1DRL                       ; Stores received byte to register A
+            staa  1,x+                          ; Stores in X, increments X
+            cmpa  #13                           ; Compares value with carriage return
+            beq writecSCI1                      ; If equal, finished reading from serial. Branch to write
+            bra read                            ; Loop for each character in the string
 
 
 
@@ -64,21 +64,21 @@ writecSCI1:
 
 
 Read_char:  
-            ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
+            ldaa 1,x+               ; Load register A with value in location pointed by X, increment X
             cmpa #13
-            beq delay_done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
-            jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
-            bra Read_char         ; After writing the character, go back to read the second character    
+            beq delay_done          ; If equal to carriage return, reset program with a delay  
+            jsr write_char          ; Jump to write function
+            bra Read_char           ; After writing, read the next character                                                  
 
 write_char:    
-            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ; if the TDRE flag is cleared, indicating that the DRL is not cleared, loop back again to keep sending data. else, go on
-            staa SCI1DRL                                ; Store the bits in register A into the data register
-            rts         
+            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ; Wait untill SCI1DRL is cleared to transmit the next byte to serial
+            staa SCI1DRL                                ; Store the bits in register A into register A
+            rts                                         ; Return from subroutine
             
 delay_done:
-        jsr write_char
+        jsr write_char                                  ; Jump to write function to write carraige return to serial
         ;jsr delay
-        bra getcSCI1
+        bra getcSCI1                                    ; Reset program, wait for next string
            
         
         

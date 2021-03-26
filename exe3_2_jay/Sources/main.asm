@@ -22,8 +22,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 ; variable/data section
 
             ORG RAMStart
- ; Insert here your data definition.
-string_buffer rmb 100
+string_buffer rmb 100  ; Reserve 100 bytes of memory for string 
 
 ; code section
             ORG   ROMStart
@@ -31,26 +30,26 @@ string_buffer rmb 100
 
 Entry:
 _Startup:
-            LDS   #RAMEnd+1       ; initialize the stack pointer
+            LDS   #RAMEnd+1         ; initialize the stack pointer
 
             CLI                     ; enable interrupts
 mainLoop:
            
 SCI_setup:              
-            movb  #$00,SCI1BDH
-            movb  #156,SCI1BDL
-            movb  #$4c,SCI1CR1
-            movb  #$0c,SCI1CR2
+            movb  #$00,SCI1BDH      ; Set all bits in SCI1BDH to 0
+            movb  #156,SCI1BDL      ; Set baud rate to 9600
+            movb  #$4c,SCI1CR1      ; Sets 8 data bits and wake up bit    
+            movb  #$0c,SCI1CR2      ; Enables transmitter and receiver
             
-            ldx   #RAMStart
+            ldx   #RAMStart         ; Load x with memory address $1000, where our string buffer is located
 
 ; we need to wait for the RDRF to be set (to 1), so brclr will branch itself if RDRF is 0   
 ; until RDRF is 1, it will go to the next line to load the message         
 getcSCI1:
-            brclr SCI1SR1, mSCI1SR1_RDRF,getcSCI1
-            ldaa  SCI1DRL
-            staa  1,x+
-            bra getcSCI1
+            brclr SCI1SR1, mSCI1SR1_RDRF,getcSCI1   ; Polling, checking for receiving bit to be set to continue
+            ldaa  SCI1DRL                           ; Loads character from serial to register A
+            staa  1,x+                              ; Stores value in A to location pointed by X (in string buffer)
+            bra getcSCI1                            ; Goes to read next character
             
             
             

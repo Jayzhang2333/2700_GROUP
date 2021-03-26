@@ -45,9 +45,8 @@ _Startup:
             
             
             
-            movb  #$4C,SCI1CR1     ;this is enable 8 data bits nad address wake up
-                                   ;How to determine which bits to set?                                       
-            movb  #$0C,SCI1CR2     ;both transmitor and receive are enabled, but here we just use transmitor
+            movb  #$4C,SCI1CR1     ;this is enable 8 data bits nad address wake up                                     
+            movb  #$0C,SCI1CR2     ;Enable both transmission and recieving bits
             bsr   delay   
                                          
 Start:
@@ -55,34 +54,33 @@ Start:
 
 
 Read_char:  
-            ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
-            beq done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
+            ldaa 1,x+             ; Load register A with value stored at X, increment X
+            beq done              ; IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
             jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
-            bra Read_char         ; After writing the character, go back to read the second character    
+            bra Read_char         ; Loop through string to read each character   
 
 write_char:    
-            brclr SCI1SR1,mSCI0SR1_TDRE,write_char      
-            staa SCI1DRL                                
-            rts         
+            brclr SCI1SR1,mSCI1SR1_TDRE,write_char    ; Checking if transmission bit is set.   
+            staa SCI1DRL                              ; Send character to serial      
+            rts                                       ; Return to Read_char
             
-done:
-          jsr delay
-          bra Start            
+done:   ; Function for when no more characters in string
+          jsr delay   ; 1 Second Delay              
+          bra Start   ; Branch to beginning for next string.          
   
             
 ; one second delay
 delay:
           pshx
           pshy
-          ; <your code goes here>
-          ;
+
           ldx #60000
           ldy #50
           
 inner_loop:
-            psha  ;push requires 2 cycle
-            pula  ; pull requires 3 cycle
-            dbne x, inner_loop ;dbne requires 3 cycle
+            psha                ;push requires 2 cycle
+            pula                ; pull requires 3 cycle
+            dbne x, inner_loop  ;dbne requires 3 cycle
             
             ldx #60000
             dbne y, inner_loop
