@@ -8690,6 +8690,8 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
+string_buffer rmb 100
+
 
 
 ; code section
@@ -8701,6 +8703,7 @@ _Startup:
             LDS   #RAMEnd+1       ; initialize the stack pointer
 
             CLI                     ; enable interrupts
+mainLoop:
 
 SCI_setup:              
             movb  #$00,SCI1BDH
@@ -8708,65 +8711,25 @@ SCI_setup:
             movb  #$4c,SCI1CR1
             movb  #$0c,SCI1CR2
             
-            
-;*****************************read from seria****************************
+            ldx   #RAMStart
+
 ; we need to wait for the RDRF to be set (to 1), so brclr will branch itself if RDRF is 0   
 ; until RDRF is 1, it will go to the next line to load the message         
 getcSCI1:
-            ldx   #RAMStart
-read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
+            brclr SCI1SR1, SCI1SR1_RDRF,getcSCI1
             ldaa  SCI1DRL
             staa  1,x+
             ;compare with the ASCII carriage sign
-            cmpa  #13
-            beq writecSCI1
-            bra read           
-
-
-;**************************write to serial**************************                                      
-writecSCI1:
-           ldx #RAMStart
-
-
-Read_char:  
-            ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
-            cmpa #13
-            beq delay_done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
-            jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
-            bra Read_char         ; After writing the character, go back to read the second character    
-
-write_char:    
-            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ; if the TDRE flag is cleared, indicating that the DRL is not cleared, loop back again to keep sending data. else, go on
-            staa SCI1DRL                                ; Store the bits in register A into the data register
-            rts         
+            cmpa  #$13
+            beq done
+            bra getcSCI1
+ done:
+        rts           
             
-delay_done:
-        jsr write_char
-        ;jsr delay
-        bra getcSCI1
-           
-        
-        
- ; one second delay
-delay:
-          pshx
-          pshy
-          ; <your code goes here>
-          ;
-          ldx #60000
-          ldy #50
-          
-inner_loop:
-            psha  ;push requires 2 cycle
-            pula  ; pull requires 3 cycle
-            dbne x, inner_loop ;dbne requires 3 cycle
             
-            ldx #60000
-            dbne y, inner_loop
-          
-          puly
-          pulx  
-          rts		; return from subroutine         
+            
+                       
+
 ;**************************************************************
 ;*                 Interrupt Vectors                          *
 ;**************************************************************

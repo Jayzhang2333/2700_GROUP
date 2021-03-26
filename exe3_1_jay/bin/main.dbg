@@ -8685,11 +8685,15 @@ mNVFSEC_KEYEN1:     equ    %10000000
 
 
 ROMStart    EQU  $4000  ; absolute address to place my code/constant data
+;StringStart EQU  $2000  ; absolute address to place messages for serial transmission ]
 
 ; variable/data section
 
             ORG RAMStart
  ; Insert here your data definition.
+no_1 fcc "We are  Big Dollar Bills"                ;Store a string
+no_2 dc.b 13,0         ;Decimal 13 is the ASCII carriage return, can I add a NULL as an ending sigh? 
+
 
 
 ; code section
@@ -8701,53 +8705,39 @@ _Startup:
             LDS   #RAMEnd+1       ; initialize the stack pointer
 
             CLI                     ; enable interrupts
-
-SCI_setup:              
-            movb  #$00,SCI1BDH
-            movb  #156,SCI1BDL
-            movb  #$4c,SCI1CR1
-            movb  #$0c,SCI1CR2
+            
+             
+            movb  #$00,SCI1BDH           ; 0-4 bits in high should be set to zeros
+            movb  #156,SCI1BDL           ; Set Baud Rate register to 156 which will make the baud rate close to 9600, this is on textbook p455 table 9.3
             
             
-;*****************************read from seria****************************
-; we need to wait for the RDRF to be set (to 1), so brclr will branch itself if RDRF is 0   
-; until RDRF is 1, it will go to the next line to load the message         
-getcSCI1:
-            ldx   #RAMStart
-read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
-            ldaa  SCI1DRL
-            staa  1,x+
-            ;compare with the ASCII carriage sign
-            cmpa  #13
-            beq writecSCI1
-            bra read           
-
-
-;**************************write to serial**************************                                      
-writecSCI1:
+            
+            movb  #$4C,SCI1CR1     ;this is enable 8 data bits nad address wake up
+                                   ;How to determine which bits to set?                                       
+            movb  #$0C,SCI1CR2     ;both transmitor and receive are enabled, but here we just use transmitor
+            bsr   delay   
+                                         
+Start:
            ldx #RAMStart
 
 
 Read_char:  
             ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
-            cmpa #13
-            beq delay_done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
+            beq done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
             jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
             bra Read_char         ; After writing the character, go back to read the second character    
 
 write_char:    
-            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ; if the TDRE flag is cleared, indicating that the DRL is not cleared, loop back again to keep sending data. else, go on
-            staa SCI1DRL                                ; Store the bits in register A into the data register
+            brclr SCI1SR1,mSCI0SR1_TDRE,write_char      
+            staa SCI1DRL                                
             rts         
             
-delay_done:
-        jsr write_char
-        ;jsr delay
-        bra getcSCI1
-           
-        
-        
- ; one second delay
+done:
+          jsr delay
+          bra Start            
+  
+            
+; one second delay
 delay:
           pshx
           pshy
@@ -8766,7 +8756,8 @@ inner_loop:
           
           puly
           pulx  
-          rts		; return from subroutine         
+          rts		; return from subroutine
+                  
 ;**************************************************************
 ;*                 Interrupt Vectors                          *
 ;**************************************************************
