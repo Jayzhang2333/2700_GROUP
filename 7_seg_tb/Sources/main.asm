@@ -50,15 +50,14 @@ mainLoop:
 
             ;$0E, $0D, $0B, $07
             ;$ff $df
-            ldaa #$ff
-            STAA  PTP
+             LDAB  #$0B
+            STAB  PTP 
                           ; Load register B as the CONTENT IN MEMORY POINTED BY Y (LED state)
             ldaa #$DF
             staa PORTB
             
             
-            LDAB  #$0B
-            STAB  PTP 
+            
             
             
 

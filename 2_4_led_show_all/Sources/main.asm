@@ -40,7 +40,7 @@ _Startup:
 
             CLI                   ; enable interrupts
 mainLoop:
-            LDAA  #$FF            ;Load register A with all ones.
+Config_io:  LDAA  #$FF            ;Load register A with all ones.
             LDAB  #$00            ;Load register B with all zeros.
             STAA  DDRB            ;Configure port B,P,J as outputs
             STAA  DDRP            
