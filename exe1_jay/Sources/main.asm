@@ -37,11 +37,11 @@ _Startup:
           ldx  #string
 Start:
         jsr up2low      ; jump to up2low
-        ldx #string     ; load string to register X
+        ldx #string     ; load X to the head of the string
         jsr low2up      ; jump to low2up
-        ldx #string     ; load string to register X
+        ldx #string     ; load X to the head of the string
         jsr CapWord     ; jump to CapWord
-        ldx #string     ; load string to register X
+        ldx #string     ; load X to the head of the string
         jsr CapSen      ; jump to CapSen
         bra Start
         
@@ -52,10 +52,13 @@ Start:
 
 
 low2up:                 ; function to raise all lower case characters to upper case 
-        psha            ; push to stack 
+        psha            ; push value in A to stack, preserve it 
 loop_up:
         ldaa 0,x        ;load character from X with no offset
-        beq done
+        beq done        ;If the current value pointed by X is $00
+                        ;This means we have reached the end 
+                        ;Branch to done
+                        
         cmpa #$61       ; compare A with hex value of 61 (a in ASCII)
         blo next_up     ; if A less than value of $61, branch to next_up 
         cmpa #$7A       ; compare A with hex value $7A (z in ASCII)
@@ -63,7 +66,7 @@ loop_up:
         suba #$20       ; subtract hex $20 from A (converts to upper case ASCII code)
         staa 0,x        ; store value in A in X
 next_up:
-        inx             ; increment pointer in X
+        inx             ; Increase X to point to the next char
         bra loop_up     ; branch to loop_up
 done:
         pula            ; pull from stack
@@ -79,7 +82,7 @@ up2low:                ;function to lower all upper case characters to lower cas
         psha
 loop_low:
         ldaa 0,x       ; load to A pointed value in X with no offset
-        beq done       ; if empty, branch to done
+        beq done       ; if it is null, branch to done
         cmpa #$5A      ; compare with hex value 5A (Z in ASCII)
         bhi next_low   ; branch to next_low if character in A higher than 5A
         cmpa #$41      ; compare A with hex value 41 (A in ASCII)
@@ -87,8 +90,8 @@ loop_low:
         adda #$20      ; Add 20 in hex (32 in decimal) to convert to lower case
         staa 0,x       ; Store A into current pointed value in X
 next_low:
-        inx            ; Increment X
-        bra loop_low
+        inx            ; Increment X to point to the next char in string
+        bra loop_low   ; Branch again to deal with next char 
         
 
 
@@ -98,21 +101,21 @@ next_low:
 
 
 CapWord:
-        psha
+        psha           ; push value in A to stack, preserve it 
         jsr up2low     ; First convert all characters to lower case
-        ldx #string    ; load string to X
-        jsr check_up   ; jump to check_up
+        ldx #string    ; load X to the head of the string
+        jsr check_up   ; jump to check_up to capitalise the first letter
                
 loop_word:             ; will loop through string until the end of a word is reached
         ldaa 0,x
-        beq done       ; branch to done if X is empty
+        beq done       ; branch to done if X is null
         ldaa -1,x      ;
-        cmpa #$20      ; check if stack pointer
-        bne next_word
-        jsr check_up
+        cmpa #$20      ; check if the previous letter is a space
+        bne next_word  ;If false, we can move on to the next letter
+        jsr check_up   ;If true, we need to capitalise the current letter
         
 next_word:             ; used to set up loop_word function by incrementing X
-        inx
+        inx            ;Increase X to point to the next letter in the string
         bra loop_word   
 
 check_up:             ; Checks if the current if character is lower case. If so, convert to upper case
@@ -141,16 +144,16 @@ CapSen:               ; function to capitalise start of each sentence
 loop_sen:
         ldaa 0,x
         beq done
-        ldaa -1,x     ; check previous character
+        ldaa -1,x     ; check if previous character is a space
         cmpa #$20     ; compare character with hex 20 (SPACE in ASCII)
-        bne next_sen  ; branch not equal
-        ldaa -2,x     ; check previous character 2 spaces back
+        bne next_sen  ; We can move on to the next char if the previous is not space
+        ldaa -2,x     ; check if previous character 2 is a full stop
         cmpa #$2E     ; compare character with hex 2E ( . in ASCII)
-        bne next_sen
+        bne next_sen  ; We can move on to the next char if the previous is not a full stop
         jsr check_up
         
 next_sen:
-        inx
+        inx           
         bra loop_sen   
 
 
