@@ -8741,11 +8741,12 @@ Start:
             ; Now user should be completed with inputs
             ; Reset x to point to the start of tbe input string
             ldx #buffer
-            
+            ldaa PTH
+            staa trigger
             jsr Delay
             ldaa trigger
             cmpa #$FE
-            beq  up2low
+            beq  low2up
             bra  CapWord     
             ;bra Start ; Start again
             
