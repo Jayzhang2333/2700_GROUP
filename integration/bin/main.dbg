@@ -8690,12 +8690,12 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-string_buffer rmb 100
-start_mask equ %11111110
-LEDON	    equ	 $01	  ; Value to write to Port B
-LEDOFF    equ  $00
-PTH_0      DC.B $00
-PORT_H_MASK equ %00000001
+string_buffer rmb 100       ;Reserve a memory space for string buffer
+start_mask equ %11111110    ;Mask to determine which mode 
+LEDON	    equ	 $01	        ;Value to write to Port B to turn on LED
+LEDOFF    equ  $00          ;Value to write to Port B to turn off LED
+PTH_0      DC.B $00         ;Variable to store the value of PH0
+PORT_H_MASK equ %00000001   ;Mask of port H to setup interrupt
 ; code section
             ORG   ROMStart
 
@@ -8706,73 +8706,72 @@ _Startup:
 
                                 
 SCI_setup:              
-            movb  #$00,SCI1BDH
+            movb  #$00,SCI1BDH    ;Configure serial port 1
             movb  #156,SCI1BDL
             movb  #$4c,SCI1CR1
             movb  #$0c,SCI1CR2
 
 LED_setup:
             ldaa    #$FF
-            staa    DDRB    ; Configure PORTB as output
+            staa    DDRB   ; Configure PORTB as output
             staa    DDRJ   ; Port J as output to enable LED
-            ldaa    #00    ; need to write 0 to J0
+            ldaa    #00    ; Need to write 0 to J0
             staa    PTJ    ; to enable LEDs
+
 Digital_setup:
             sei
-            LDAA #PORT_H_MASK
+            LDAA #PORT_H_MASK  ;Set up the interrupt for port H
             staa PIEH
             COMA
             STAA PPSH
             CLI
             
 getcSCI1:
-            ldx   #RAMStart
-read:       brclr SCI1SR1, mSCI1SR1_RDRF,read
+            ldx   #RAMStart                        ;Read input string from Serial port 1
+read:       brclr SCI1SR1, mSCI1SR1_RDRF,read      ;Stop reading until carriage return character detected
             ldaa  SCI1DRL
             staa  1,x+
-            ;compare with the ASCII carriage sign
-            cmpa  #13
+            cmpa  #13                              ;Compare with the ASCII carriage sign
             beq wait_mode
             bra read     
             
+
 wait_mode:
-          ldaa PTH
+          ldaa PTH                                 ;Initialise PTH_0 with the current value in port H
           staa PTH_0
-          movb #LEDON, PORTB
-          jsr delay  
-          movb #LEDOFF, PORTB   
-          ldaa PTH_0 
+          movb #LEDON, PORTB                       ;Turn of the LED to indicate finish reading input
+          jsr delay                                ;Delay for 2 second for user to decide which mode
+          movb #LEDOFF, PORTB                      ;Turn off the LED after 2 second delay
+          ldaa PTH_0                               ;Load the PTH_0 value and compare with the mask that determine which mode
           cmpa #start_mask
-          beq  CapWord
-          bra  low2up          
+          beq  CapWord                             ;If PH0 pressed, only capitalise the first letter
+          bra  low2up                              ;If PH0 not pressed, capital all letters
 
-writecSCI1:
+
+
+writecSCI1:                                        ;This is the same serial output function created in exe3 
            ldx #string_buffer
-
-
 Read_char:  
-            ldaa 1,x+             ; First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
-            cmpa #13
-            beq delay_done             ; Checking. IF THE CURRENT MEMORY IS 0 (NULL), this means the end of string, delay and go abck to the start
-            jsr write_char        ; If the current memory is not 0 (NULL), go to write the character
-            bra Read_char         ; After writing the character, go back to read the second character    
+            ldaa 1,x+             ;First, load the A register with the value inside memory address pointed by x, and then add 1 to X for later operations
+            cmpa #13              ;Compare with carriage return char, if it is, end outputing
+            beq delay_done        
+            jsr write_char        ;If the current memory is not 0 (NULL), go to write the character
+            bra Read_char         ;After writing the character, go back to read the next character    
 
 write_char:    
-            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ; if the TDRE flag is cleared, indicating that the DRL is not cleared, loop back again to keep sending data. else, go on
-            staa SCI1DRL                                ; Store the bits in register A into the data register
+            brclr SCI1SR1,mSCI1SR1_TDRE,write_char      ;If the TDRE flag is cleared, indicating that the DRL is not cleared, loop back again to keep sending data. else, go on
+            staa SCI1DRL                                ;Store the bits in register A into the data register
             rts         
             
 delay_done:
-        JSR write_char
-        ;jsr delay
-        ;bra writecSCI1
-        BRA getcSCI1
+        JSR write_char                                  ;First output the carriage return char
+        BRA getcSCI1                                    ;Branch back to the getcSCI1 and read next string
 
 
 
 
 
-up2low:
+up2low:                                                 ;This is the same function created in exe1 to change upper case to lower case 
         psha
 loop_low:
         ldaa 0,x
@@ -8793,7 +8792,7 @@ done:
         rts
 
 
-low2up: 
+low2up:                                                ;This is the same function created in exe1 to change lower case into upper case
         ldx #string_buffer
         psha
 loop_up:

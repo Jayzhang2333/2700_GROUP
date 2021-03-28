@@ -74,6 +74,7 @@ Start:
             ; Now user should be completed with inputs
             ; Reset x to point to the start of tbe input string
             ldx #buffer
+            
             jsr Delay
             ldaa trigger
             cmpa #$FE
@@ -205,15 +206,15 @@ Delay:                 ;push A, X and Y onto stack to preserve them after delay
           psha
           pshx
           pshy
-          ldx #6000
-          ldy #50
+          ldx #60000
+          ldy #100
           
 inner_loop:
             psha  ;push requires 2 cycle
             pula  ; pull requires 3 cycle
             dbne x, inner_loop ;dbne requires 3 cycle
             
-            ldx #6000
+            ldx #60000
             dbne y, inner_loop
             
             puly
