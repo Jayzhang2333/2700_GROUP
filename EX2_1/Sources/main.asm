@@ -20,10 +20,10 @@
 ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
 ; variable/data section
-table       DC.B    $0E, $0D, $0B, $07   ;7-Seg locations on port P
                  
             ORG RAMStart
  ; Insert here your data definition.
+table       DC.B    $0E, $0D, $0B, $07   ;7-Seg locations on port P
 
 
 
