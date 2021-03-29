@@ -4,17 +4,17 @@
 
 **Jay Zhang-**
 Roles and Responsibilities-
-Lead programmer for Exercise 1
-Lead programmer for Exercise 2
-Assisted with Exercise 3
-Assisted with integration Exercise 4
+* Lead programmer for Exercise 1
+* Lead programmer for Exercise 2
+* Assisted with Exercise 3
+* Assisted with integration Exercise 4
 
 **Marco Tupaz**
 Roles and Responsibilities-
-Assisted with  Exercise 1
-Assisted with Exercise 3
-Assisted with integration in Exercise 4
-Pseudocode and Flowchart Editor
+* Assisted with  Exercise 1
+* Assisted with Exercise 3
+* Assisted with integration in Exercise 4
+* Pseudocode and Flowchart Editor
 
 **Ethan Susanto**
 Roles and Responsibilities-
