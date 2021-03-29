@@ -1,6 +1,6 @@
 # 2700_GROUP
 
-##Team Member Breakdown
+## Team Member Breakdown
 
 **Jay Zhang-**
 Roles and Responsibilities-
@@ -22,26 +22,26 @@ Worked on Exercise 2
 Lead programmer for  Exercise 3
 Looked after the Dragon-12 board
 
-##Program Overview
+## Program Overview
 
-###Exercise 1
+### Exercise 1
 
 Each individual task is split into separate functions that can be called on by the programmer. The low2up module converts all characters in a string to lowercase. The up2low module converts all characters to uppercase. The CapWord module converts all characters to lowercase and then capitalises each word by checking if there is a space in front of it. CapSen converts all characters to lowercase and then capitalises words that are preceded by a space and fullstop. These modules were all combined into one program.
 
-###Exercise 2
+### Exercise 2
 
 Each of the tasks were split into their own programs that run independently from each other. Each program is then broken down into its own modules to perform the set task. Task 1 ….
 Task 3 stored in PRESS_CHANGE looks at the locations of the string to be displayed and maps them to the location of where the LED memory is stored. Each number is then called by polling button in port P and displayed onto the LED. Task 4 stored in 7_led_show_all will map ASCII values in their hex code to their corresponding numerical symbol and display it on the LED by loading data into port P to enable the LEDs and then port B to light them up. Task 5 will display a string that is longer than four characters by scrolling it through the LEDs from right to left. To do this we reserve four bytes for the characters that need to be displayed and this string is uploaded to the LEDs at each iteration. These characters in memory are updated to reflect the next string to display. 
 
-###Exercise 3
+### Exercise 3
 
 Each of the tasks were once again split into their own programs and then combined into one program for task 4. For each task, the SCI1 port was set as the serial communication port between the computer and the Dragon-12 board. Task 1 loads a string into X, loads the first character into A and then writes it to the serial port when the TDRE bit has been set. It then increments through X until all characters have been displayed. Task 2 reserves a memory space of 100 bytes and when the RDRF bit has been set, will store the character transmitted by the serial to the pointer in the reserved memory. Task 3 builds on Task 2 by continually storing characters into memory while in a loop until the RETURN character is read by the serial port. If the RETURN character is read, return to the start of the program. Task 4 is a combination of Task 1 and Task 3, that will store an inputted string into reserved memory until the RETURN character is read. Once the RETURN is read, it will point back to the start of memory and output the characters into the string by incrementing through the memory everytime TDRE is set. 
 
-###Exercise 4
+### Exercise 4
 
 Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string from serial is first read and stored into reserved memory. When the string has been inputted, the pointer for X is reset to the start of memory and checks if the mode of changing the string has been set by the button at PH0. Pressing the button PH0 will trigger an interrupt to update a variable that sets the mode to update the string. Once the mode has been determined, the string will either be changed to uppercase in the default state or all words are capitalised if the button is pressed. This new string is then sent back through serial to the transmitter. This program loops continuously. 
 
-##Instructions for User:
+## Instructions for User:
 
 For serial input and output, ensure a wire is connected to Serial Port 1 (right side of the HCS12)
 For power and debugging, connect a wire to Serial Port 0 (left side of HCS12)
@@ -54,9 +54,9 @@ Set Serial line to whatever port the HCS12 is connected to on your computer
 In Terminal tab, tick box for Implicit LF in every CR
 In Serial tab under Connection, set Flow Control to be None
 
-##Test Plan:
+## Test Plan:
 
-###Exercise 1:
+### Exercise 1:
 
 **Task1: Lower to Upper case**
 Task1 Modular Test:
@@ -132,7 +132,7 @@ Task4 integration test:
 4.Spc to the $1000 where the testing string  is stored
 5.Run the code and check the result
 
-###Exercise 2:
+### Exercise 2:
 The left up bit of the second 7_seg LED has a problem displaying, it requires more than 1 second to light up. The up left of the third and fourth 7_seg also have problems, they light up automatically by themself, we tested it using a project called 7_seg_tb. It can also be observed by the LEDs under 7 seg.
 
 Task2 is included in the following tasks
