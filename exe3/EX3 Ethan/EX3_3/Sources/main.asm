@@ -66,7 +66,9 @@ get_char:
             
             ; If RDRF is 0, get_char will loop itself. If set to 1 it will proceed to read the character and store it
 return:
-            rts ; Return from function            
+            staa x
+            ;rts ; Return from function
+            bra main            
             
 
 ;**************************************************************
