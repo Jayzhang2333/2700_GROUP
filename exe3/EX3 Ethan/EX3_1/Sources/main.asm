@@ -23,7 +23,7 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart ; Starts location pointer at $1000
  ; Insert here your data definition.
-string fcc "This is a cool ass word" ; Create a string (first character at memory $1000)
+string fcc "Who ever is marking this very handsome" ; Create a string (first character at memory $1000)
 string_end dc.b 13                   ; ASCII carriage return
 
 
@@ -59,6 +59,7 @@ Start:
 Read: 
             
             ldaa 1,x+  ; Loads character pointed by x, then increments x
+            cmpa #13
             beq fin  ; If the value pointed by x is NULL, terminate program
             jsr Write ; If character is not NULL, branch to write character
             bra Read   ; After writing, loop to read each character in the string
@@ -69,6 +70,7 @@ Write:
             rts ; Return from subroutine after writing character
 
 fin:   
+            jsr Write
             jsr delay
             bra Start
             
