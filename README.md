@@ -164,6 +164,7 @@ Task2 is included in the following tasks
 **Task4 Display 4 numbers in 7-seg LEDs:**
 
 *Task4 modular test:*
+
   1. Open the debug mode
   2. Set breakpoint at DISP_LETTER subroutine
   3. Run the code till breakpoint
@@ -180,11 +181,14 @@ Task2 is included in the following tasks
 3. Check if all the numbers are shown
 
 **Task 5 Scroll a string longer than 4**
+
 *Task5 modular test:*
+
 1. Open the debug mode
 2. Spc the memory location of the Display String($100b)
 		
 Check load_less_than 4 :
+
 3. Set breakpoint at less_than_4 subroutine
 4. Run the code till breakpoint
 5. Step from breakpoint to “inc step_counter”
@@ -192,6 +196,7 @@ Check load_less_than 4 :
 Run again and repeat step 5 and 6 until we need to display 4 numbers
 		
 Check load 4:
+
 7. Remove the breakpoint and add a new one at greater_equal_4 sr
 8. Run the code till breakpoint
 9. Step through the g4_loop subroutine
@@ -199,11 +204,13 @@ Check load 4:
 Run again and repeat step 9 and 10 until we need to fill number from tail
 
 Check move X to the tail of the string
+
 11. Step through the use_back subroutine until branching back to g4_loop
 12. Check if the register X to the tail of the whole string ($1006)
 13. Keep running the code and check if the display is correct
 		
-Task5 integration test:
+*Task5 integration test:*
+
 1. Open debug mode
 2. Run the code
 3. Check if all the numbers are scrolling
@@ -256,7 +263,7 @@ Functions used in this exercise have been tested in the previous exercise, here 
 3. Run the code and type input and press button
 4. Check if the interrupt can be triggered and PTH_0 has been loaded with PTH value($FE).
 
-Exercise4 integration test:
+*Exercise 4 integration test:*
 1. Open PuTTY set to serial
 2. Open debug mode and run the code
 3. Type input string from PuTTY
