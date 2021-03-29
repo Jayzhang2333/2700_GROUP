@@ -23,8 +23,11 @@ ROMStart    EQU  $4000  ; absolute address to place my code/constant data
 
             ORG RAMStart
  ; Insert here your data definition.
-input_string    fcc "Hello World"; string to be altered   
-return_char dc.b 13,0 ; set 1 byte for the return character to come after string
+test_string     fcc "Hello World"; string to be altered   
+return_char     dc.b 13,0 ; set 1 byte for the return character to come after string
+function_char   fcb $41 ; set 1 byte for char to choose which function to run
+string_buffer   rmb 100 ; reserve 100 bytes for the string sent from serial
+
 
 ; code section
             ORG   ROMStart
@@ -46,10 +49,20 @@ mainLoop:
         
         bsr delay
         
-        ldx #input_string ; load string to register x
+        ldx #test_string ; load string to register x
+        
+        
+functionTest:
+        ldaa function_char ; load char to A
+        
+        cmpa #$41 ; see if the char in A is 65 in ASCII
+        
+        beq writeLoop ; if equal branch to outputLoop
+        
+        bne readLoop ;if not equal branch to readLoop
 
 
-innerLoop:
+writeLoop:
         
         ldaa 1,x+ ;load to A character in X and point to next character
                 
@@ -57,19 +70,47 @@ innerLoop:
           
         ;cmpa return_char  ;check if the next character is the return character
         
-        beq mainLoop 
+        beq mainLoop ; jump to main loop if current memory is equal to zero
         
-        bra innerLoop
+        bra writeLoop  ; branch to write loop
         
         
         
 putcSCI1:
               
-        brclr SCI1SR1, mSCI1SR1_TDRE,* ; wait for TDRE to be set
+        brclr SCI1SR1, mSCI1SR1_TDRE,* ; wait for TDRE to be set. * means to jump back to same address
         
         staa SCI1DRL ; output character
                 
         rts
+                
+        
+readLoop:
+                        
+        jsr getcSCI1 ;jump to subroutine
+          
+        ;cmpa return_char  ;check if the next character is the return character
+        
+        beq mainLoop ; jump to main loop if current memory is equal to zero
+        
+        bra readLoop  ; branch to write loop
+        
+        
+getcSCI1:
+        brclr SCI1SR1, mSCI1SR1_RDRF,* ; wait for RDRF to be set
+        
+        ldaa SCI1DRL ; load character to A
+        
+        staa 1,x+ ; store the character into register X and point to next space
+        
+        cmpa #$0D ; character the next character to the return character
+        
+        bne getcSCI1 ; loop through function until return carriage found
+        
+        ;bne getSCI1 ; branch to start of function if characters still to read
+        
+        rts
+        
         
 delay:
           ldx #60000
