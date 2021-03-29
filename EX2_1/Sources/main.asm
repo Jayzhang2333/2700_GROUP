@@ -87,7 +87,13 @@ display:
             inx            ; increment x
             
             bra  main
-            
+
+;*****************************************************************
+;refresh_delay:
+                      
+
+
+
 ;-------------------------------------------------------------------;            
             
 delay:    ; Short delay function
@@ -95,14 +101,14 @@ delay:    ; Short delay function
           pshx
           pshy
           ldx #600
-          ldy #50
+          ldy #5
           
 inner_loop:
             psha  ;push requires 2 cycle
             pula  ; pull requires 3 cycle
             dbne x, inner_loop ;dbne requires 3 cycle
             
-            ldx #6000
+            ldx #600
             dbne y, inner_loop
             
           
