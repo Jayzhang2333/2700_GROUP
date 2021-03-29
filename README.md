@@ -2,26 +2,28 @@
 
 ## Team Member Breakdown
 
-**Jay Zhang-**
+**Jay Zhang**
 
-*Roles and Responsibilities-*
+*Roles and Responsibilities*
 * Lead programmer for Exercise 1
 * Lead programmer for Exercise 2
 * Assisted with Exercise 3
 * Assisted with integration Exercise 4
 
 **Marco Tupaz**
-Roles and Responsibilities-
+
+*Roles and Responsibilities*
 * Assisted with  Exercise 1
 * Assisted with Exercise 3
 * Assisted with integration in Exercise 4
 * Pseudocode and Flowchart Editor
 
 **Ethan Susanto**
-Roles and Responsibilities-
-Worked on Exercise 2
-Lead programmer for  Exercise 3
-Looked after the Dragon-12 board
+
+*Roles and Responsibilities*
+* Worked on Exercise 2
+* Lead programmer for  Exercise 3
+* Looked after the Dragon-12 board
 
 ## Program Overview
 
@@ -44,174 +46,174 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 
 ## Instructions for User:
 
-For serial input and output, ensure a wire is connected to Serial Port 1 (right side of the HCS12)
-For power and debugging, connect a wire to Serial Port 0 (left side of HCS12)
-If Windows user, use the PUTTY software to have a Serial terminal to send and receive messages from the HCS12
-Button that is used for all exercises is PH0 (rightmost button)
-Setting up Putty
-Choose ‘Serial’ as Connection type in Session tab
-Set baud rate to 9600
-Set Serial line to whatever port the HCS12 is connected to on your computer
-In Terminal tab, tick box for Implicit LF in every CR
-In Serial tab under Connection, set Flow Control to be None
+- For serial input and output, ensure a wire is connected to Serial Port 1 (right side of the HCS12)
+- For power and debugging, connect a wire to Serial Port 0 (left side of HCS12)
+- If Windows user, use the PUTTY software to have a Serial terminal to send and receive messages from the HCS12
+- Button that is used for all exercises is PH0 (rightmost button)
+- Setting up Putty
+  - Choose ‘Serial’ as Connection type in Session tab
+  - Set baud rate to 9600
+  - Set Serial line to whatever port the HCS12 is connected to on your computer
+  - In Terminal tab, tick box for Implicit LF in every CR
+  - In Serial tab under Connection, set Flow Control to be None
 
 ## Test Plan:
 
 ### Exercise 1:
 
 **Task1: Lower to Upper case**
-Task1 Modular Test:
-1.Load testing string
-2.Open debug mode
-3.Set a breakpoint in low2up subroutine at “cmpa #$61”
-4.Spc to the $1000 where the testing string  is stored
-5.Run the code till breakpoint
-6.Step from the breakpoint to the line “staa 0,x” and check:
-If the range we provided can check lower case letter
-If we can change it into upper case
-		7.Remove breakpoint and set new breakpoint at ‘pula’ of done subroutine
-		8.Run the code till breakpoint and check if the code can find the end of string
+*Task1 Modular Test:*
+1. Load testing string
+2. Open debug mode
+3. Set a breakpoint in low2up subroutine at “cmpa #$61”
+4. Spc to the $1000 where the testing string  is stored
+5. Run the code till breakpoint
+6. Step from the breakpoint to the line “staa 0,x” and check:
+   - If the range we provided can check lower case letter
+   - If we can change it into upper case
+7. Remove breakpoint and set new breakpoint at ‘pula’ of done subroutine
+8. Run the code till breakpoint and check if the code can find the end of string
 	
-**Task1 integration test:**
-1.Load testing string
-2.Open debug mode
-3.Set breakpoint after “jsr up2low” in Start 
-4.Spc to the $1000 where the testing string is stored
-5.Run the code and check the result
+*Task1 integration test:*
+1. Load testing string
+2. Open debug mode
+3. Set breakpoint after “jsr up2low” in Start 
+4. Spc to the $1000 where the testing string is stored
+5. Run the code and check the result
 
 **Task2: Upper to lower case**
-Task2 Modular Test:
-1.Load testing string
-2.Open debug mode
-3.Set a breakpoint in up2low subroutine at “cmpa #$5A”
-4.Spc to the $1000 where the testing string is stored
-5.Run the code till breakpoint
-6.Step from the breakpoint to the line “staa 0,x” and check:
-*If the range we provided can check upper case letter
-*If we can change it into lower case
-7.Remove breakpoint and set new breakpoint at ‘pula’ of done subroutine
-8.Run the code till breakpoint and check if the code can find the end of string
+*Task2 Modular Test:*
+1. Load testing string
+2. Open debug mode
+3. Set a breakpoint in up2low subroutine at “cmpa #$5A”
+4. Spc to the $1000 where the testing string is stored
+5. Run the code till breakpoint
+6. Step from the breakpoint to the line “staa 0,x” and check:
+* If the range we provided can check upper case letter
+* If we can change it into lower case
+7. Remove breakpoint and set new breakpoint at ‘pula’ of done subroutine
+8. Run the code till breakpoint and check if the code can find the end of string
 
-Task2 integration test:
-1.Load testing string 
-2.Open debug mode
-3.Set breakpoint after “jsr low2up” in Start 
-4.Spc to the $1000 where the testing string is stored
-5.Run the code and check the result
+*Task2 integration test:*
+1. Load testing string 
+2. Open debug mode
+3. Set breakpoint after “jsr low2up” in Start 
+4. Spc to the $1000 where the testing string is stored
+5. Run the code and check the result
 
 **Task3: Capitalise the first letter of each word, each other letter should be lower case**
-Task3 Modular Test:
-1.Load testing string
-2.Open debug mode
-3.Set a breakpoint in loop_word of CapWord subroutine at “cmpa #$20”
-4.Spc to the $1000 where the testing string is stored
-5.Run the code till breakpoint
-6.Step from the breakpoint to the line “bne next_word” and check:
-If the code can detect a space before a letter
+*Task3 Modular Test:*
+1. Load testing string
+2. Open debug mode
+3. Set a breakpoint in loop_word of CapWord subroutine at “cmpa #$20”
+4. Spc to the $1000 where the testing string is stored
+5. Run the code till breakpoint
+6. Step from the breakpoint to the line “bne next_word” and check:
+- If the code can detect a space before a letter
 
-Task3 integration test:
-1.Load testing string 
-2.Open debug mode
-3.Set breakpoint after “jsr CapWord” in Start 
-4.Spc to the $1000 where the testing string is stored
-5.Run the code and check the result
+*Task3 integration test:*
+1. Load testing string 
+2. Open debug mode
+3. Set breakpoint after “jsr CapWord” in Start 
+4. Spc to the $1000 where the testing string is stored
+5. Run the code and check the result
 
 **Task4: Capitalise the first letter of the string, and the first letter after a full stop**
-Task3 Modular Test:
-1.Load testing string 
-2.Open debug mode
-3.Set a breakpoint in loop_sen of CapSen subroutine at “cmpa #$20”
-4.Spc to the $1000 where the testing string is stored
-5.Run the code till breakpoint
-6.Step from the breakpoint to the line “bne next_sen” and check:
-If the code can detect a space and a full stop before a letter
+*Task 3 Modular Test:*
+1. Load testing string 
+2. Open debug mode
+3. Set a breakpoint in loop_sen of CapSen subroutine at “cmpa #$20”
+4. Spc to the $1000 where the testing string is stored
+5. Run the code till breakpoint
+6. Step from the breakpoint to the line “bne next_sen” and check:
+- If the code can detect a space and a full stop before a letter
 
-Task4 integration test:
-1.Load testing string 
-2.Open debug mode
-3.Set breakpoint after “jsr CapSen” in Start 
-4.Spc to the $1000 where the testing string  is stored
-5.Run the code and check the result
+*Task4 integration test:*
+1. Load testing string 
+2. Open debug mode
+3. Set breakpoint after “jsr CapSen” in Start 
+4. Spc to the $1000 where the testing string  is stored
+5. Run the code and check the result
 
 ### Exercise 2:
 The left up bit of the second 7_seg LED has a problem displaying, it requires more than 1 second to light up. The up left of the third and fourth 7_seg also have problems, they light up automatically by themself, we tested it using a project called 7_seg_tb. It can also be observed by the LEDs under 7 seg.
 
 Task2 is included in the following tasks
 
-Task3: Press button to change number displayed
-Task3 modular test:
-  1.Open the debug mode
-  2.Set a breakpoint at “adda #$01” of Next sr
-  3.Run the code till breakpoint and check:
-  *if the register B is $FE
-  *if the code detect input signal
-  4.Click run again and check whether the displayed number changed
-  5.Remove the breakpoint and set new at back sr
-  6.Run the code and check if the end of the 4 numbers can be detected
+**Task3: Press button to change number displayed**
+*Task3 modular test:*
+  1. Open the debug mode
+  2. Set a breakpoint at “adda #$01” of Next sr
+  3. Run the code till breakpoint and check:
+  * if the register B is $FE
+  * if the code detect input signal
+  4. Click run again and check whether the displayed number changed
+  5. Remove the breakpoint and set new at back sr
+  6. Run the code and check if the end of the 4 numbers can be detected
 
-Task3 integration test:
+*Task3 integration test:*
   1.Open debug mode
   2.2.Run the code
   3.Press the button PH0 and check if the number displayed change
 	
-Task4 Display 4 numbers in 7-seg LEDs:
-Task4 modular test:
-  1.Open the debug mode
+**Task4 Display 4 numbers in 7-seg LEDs:**
+*Task4 modular test:*
+  1. Open the debug mode
   2. Set breakpoint at DISP_LETTER subroutine
-  3.Run the code till breakpoint
-  4.Step from breakpoint till “STAB PORTB” and check:
-  *if the register Y point to the correct LED location ($1009-$100c)
-  *if the register X point to the correct number($1000-$1003)      
-  5.Click run again and keep checking    
-  6.Remove breakpoint and set breakpoint at BRA inf_loop
-  7.Check if the code can start the new loop                            
+  3. Run the code till breakpoint
+  4. Step from breakpoint till “STAB PORTB” and check:
+  * if the register Y point to the correct LED location ($1009-$100c)
+  * if the register X point to the correct number($1000-$1003)      
+  5. Click run again and keep checking    
+  6. Remove breakpoint and set breakpoint at BRA inf_loop
+  7. Check if the code can start the new loop                            
 
-Task4 integration test:
-  1.Open debug mode
-  2.Run the code
-  3.Check if all the numbers are shown
+*Task4 integration test:*
+1. Open debug mode
+2. Run the code
+3. Check if all the numbers are shown
 
-Task 5 Scroll a string longer than 4
-Task5 modular test:
-  1.Open the debug mode
-  2.Spc the memory location of the Display String($100b)
+**Task 5 Scroll a string longer than 4**
+*Task5 modular test:*
+1. Open the debug mode
+2. Spc the memory location of the Display String($100b)
 		
 Check load_less_than 4 :
-  3.Set breakpoint at less_than_4 subroutine
-  4.Run the code till breakpoint
-  5.Step from breakpoint to “inc step_counter”
-  6.Check if the Display string has been changed correctly
+3. Set breakpoint at less_than_4 subroutine
+4. Run the code till breakpoint
+5. Step from breakpoint to “inc step_counter”
+6. Check if the Display string has been changed correctly
 Run again and repeat step 5 and 6 until we need to display 4 numbers
 		
 Check load 4:
-  7.Remove the breakpoint and add a new one at greater_equal_4 sr
-  8.Run the code till breakpoint
-  9.Step through the g4_loop subroutine
-  10.Check if the display string has been changed correctly
+7. Remove the breakpoint and add a new one at greater_equal_4 sr
+8. Run the code till breakpoint
+9. Step through the g4_loop subroutine
+10. Check if the display string has been changed correctly
 Run again and repeat step 9 and 10 until we need to fill number from tail
 
-		Check move X to the tail of the string
-		11.Step through the use_back subroutine until branching back to g4_loop
-		12.Check if the register X to the tail of the whole string ($1006)
-		13.Keep running the code and check if the display is correct
+Check move X to the tail of the string
+11. Step through the use_back subroutine until branching back to g4_loop
+12. Check if the register X to the tail of the whole string ($1006)
+13. Keep running the code and check if the display is correct
 		
-		Task5 integration test:
-		1.Open debug mode
-		2.Run the code
-		3.Check if all the numbers are scrolling
+Task5 integration test:
+1. Open debug mode
+2. Run the code
+3. Check if all the numbers are scrolling
 
 
-Exercise 3:
-	Before running any serial program
-	Check baud rate is set to 9600
-	This is done by loading #156 into SCI1BDL and loading #$00 in SCI1BDH
-	Set #$4C to SCI1CR1 to set 8 bit word length and wake up bit
-	Set #$0C to SCI1CR2 to enable SCI transmission and receiving bits
+**Exercise 3:**
+Before running any serial program
+- Check baud rate is set to 9600
+- This is done by loading #156 into SCI1BDL and loading #$00 in SCI1BDH
+- Set #$4C to SCI1CR1 to set 8 bit word length and wake up bit
+- Set #$0C to SCI1CR2 to enable SCI transmission and receiving bits
 
-1.Check if each function is working properly. Set breakpoints to the beginning of each function (Start, Input, Return, Read, Write, Delay)
-2.If error in start, step through
-Check that x stores the memory address of the string
-Check if functions used work
+1. Check if each function is working properly. Set breakpoints to the beginning of each function (Start, Input, Return, Read, Write, Delay)
+2. If error in start, step through
+   - Check that x stores the memory address of the string
+   - Check if functions used work
 If error in Input
 Is there an issue with receiving bit (infinite loop)
 Is data storing in the correct location (SCI1DRL)
