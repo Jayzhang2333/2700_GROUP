@@ -231,37 +231,55 @@ Check move X to the tail of the string
 
 
 **Exercise 3:**
-Before running any serial program
+Before running any serial program:
 - Check baud rate is set to 9600
 - This is done by loading #156 into SCI1BDL and loading #$00 in SCI1BDH
 - Set #$4C to SCI1CR1 to set 8 bit word length and wake up bit
 - Set #$0C to SCI1CR2 to enable SCI transmission and receiving bits
 
 1. Check if each function is working properly. Set breakpoints to the beginning of each function (Start, Input, Return, Read, Write, Delay)
-2. If error in start, step through
-   - Check that x stores the memory address of the string
-   - Check if functions used work
-3. If error in Input
-   - Is there an issue with receiving bit (infinite loop)
-   - Is data storing in the correct location (SCI1DRL)
-   - Is x being incremented to parse through string
-   - Is the program returning after detecting a carriage return
-4. If error in return
-   - Check the stack, there may have been something pushed on top of the memory address to return to
-5. If error in Read
-   - Is x pointing to the string
-   - Is program returning after detecting a carriage return
-   - Is program branching to Write after loading character
-6. If error in Write
+
+2. If error in *Start*, step through
+   - Check that register X stores the memory address of the string
+     - Run Debugger
+     - Check if X stores $1000 (string memory location)
+   - Otherwise if there is an error in a module:
+   
+3. If error in *Input*
+   - Is there an issue with receiving bit?
+     - Is program running out of memory? This could be the issue
+     - Double check configuration of SCI1CR1 and SCI1CR2
+   - Is data storing in the correct location?
+     - Is string being stored at buffer location?
+     - Is this buffer in an appropriate location in memory? (After RAMSTART is okay)
+   - Is x being incremented to parse through string?
+     - Can fix issue of same letter being repeated in the input string
+   - Is the program returning after detecting a carriage return?
+     - If not, program will run out of memory.
+     
+4. If error in *Return*
+   - Double check any code to do with pushing and pulling of registers
+     - May be something 'pushed' on top of the memory location to return to
+     
+5. If error in *Read*
+   - Is x pointing to the string?
+     - The first character should be $1000
+   - Is program returning after detecting a carriage return?
+     - If not, program will run out of memory to read causing an error
+   - Is program branching to Write after loading character?
+   
+6. If error in *Write*
    - Check if TDRE is being set
      - Check baud rate
-     - Check serial interface (terminal)
+     - Check serial interface (Set to SCI1 NOT SCI0)
      - Check communication port
+     - Check SCI1CR1 and SCI1CR2
    - Is character writing to serial SCI1DRL
    - Is the correct character being written to the serial
    - Is function returning to the correct location
    - If not check stack 
-7. If error in Delay
+ 
+7. If error in *Delay*
    - Ensure numbers loaded into x and y registers are within a 16 bit range (~65000)
    - Does function return to the correct location?
      - If not check stack
