@@ -3,7 +3,8 @@
 ## Team Member Breakdown
 
 **Jay Zhang-**
-Roles and Responsibilities-
+
+*Roles and Responsibilities-*
 * Lead programmer for Exercise 1
 * Lead programmer for Exercise 2
 * Assisted with Exercise 3
