@@ -62,6 +62,7 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 ### Exercise 1:
 
 **Task1: Lower to Upper case**
+
 *Task1 Modular Test:*
 1. Load testing string
 2. Open debug mode
@@ -82,6 +83,7 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 5. Run the code and check the result
 
 **Task2: Upper to lower case**
+
 *Task2 Modular Test:*
 1. Load testing string
 2. Open debug mode
@@ -102,6 +104,7 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 5. Run the code and check the result
 
 **Task3: Capitalise the first letter of each word, each other letter should be lower case**
+
 *Task3 Modular Test:*
 1. Load testing string
 2. Open debug mode
@@ -119,6 +122,7 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 5. Run the code and check the result
 
 **Task4: Capitalise the first letter of the string, and the first letter after a full stop**
+
 *Task 3 Modular Test:*
 1. Load testing string 
 2. Open debug mode
@@ -141,6 +145,7 @@ The left up bit of the second 7_seg LED has a problem displaying, it requires mo
 Task2 is included in the following tasks
 
 **Task3: Press button to change number displayed**
+
 *Task3 modular test:*
   1. Open the debug mode
   2. Set a breakpoint at “adda #$01” of Next sr
@@ -157,6 +162,7 @@ Task2 is included in the following tasks
   3.Press the button PH0 and check if the number displayed change
 	
 **Task4 Display 4 numbers in 7-seg LEDs:**
+
 *Task4 modular test:*
   1. Open the debug mode
   2. Set breakpoint at DISP_LETTER subroutine
@@ -214,42 +220,45 @@ Before running any serial program
 2. If error in start, step through
    - Check that x stores the memory address of the string
    - Check if functions used work
-If error in Input
-Is there an issue with receiving bit (infinite loop)
-Is data storing in the correct location (SCI1DRL)
-Is x being incremented to parse through string
-Is the program returning after detecting a carriage return
-If error in return
-Check the stack, there may have been something pushed on top of the memory address to return to
-If error in Read
-Is x pointing to the string
-Is program returning after detecting a carriage return
-Is program branching to Write after loading character
-If error in Write
-Check if TDRE is being set
-Check baud rate
-Check serial interface (terminal)
-Check communication port
-Is character writing to serial SCI1DRL
-Is the correct character being written to the serial
-Is function returning to the correct location
-If not check stack 
-If error in Delay
-Ensure numbers loaded into x and y registers are within a 16 bit range (~65000)
-Does function return to the correct location?
-If not check stack
+3. If error in Input
+   - Is there an issue with receiving bit (infinite loop)
+   - Is data storing in the correct location (SCI1DRL)
+   - Is x being incremented to parse through string
+   - Is the program returning after detecting a carriage return
+4. If error in return
+   - Check the stack, there may have been something pushed on top of the memory address to return to
+5. If error in Read
+   - Is x pointing to the string
+   - Is program returning after detecting a carriage return
+   - Is program branching to Write after loading character
+6. If error in Write
+   - Check if TDRE is being set
+     - Check baud rate
+     - Check serial interface (terminal)
+     - Check communication port
+   - Is character writing to serial SCI1DRL
+   - Is the correct character being written to the serial
+   - Is function returning to the correct location
+   - If not check stack 
+7. If error in Delay
+   - Ensure numbers loaded into x and y registers are within a 16 bit range (~65000)
+   - Does function return to the correct location?
+     - If not check stack
 
-Exercise 4:
-Modular Test for Exercise4:
+**Exercise 4:**
+
+*Modular Test for Exercise4:*
+
 Functions used in this exercise have been tested in the previous exercise, here we  only show the modular test for the interrupt used in this exercise, which is new.
-1.Open debug mode
-2.Set breakpoint at port_h_isr (at line ‘staa PTH_0’)
-3.Run the code and type input and press button
-4.Check if the interrupt can be triggered and PTH_0 has been loaded with PTH value($FE).
+
+1. Open debug mode
+2. Set breakpoint at port_h_isr (at line ‘staa PTH_0’)
+3. Run the code and type input and press button
+4. Check if the interrupt can be triggered and PTH_0 has been loaded with PTH value($FE).
 
 Exercise4 integration test:
-1.Open PuTTY set to serial
-	2.Open debug mode and run the code
-	3.Type input string from PuTTY
-	4.Press/Don’t press button when LED indicates reading completed
-	5.Check the output in PuTTY
+1. Open PuTTY set to serial
+2. Open debug mode and run the code
+3. Type input string from PuTTY
+4. Press/Don’t press button when LED indicates reading completed
+5. Check the output in PuTTY
