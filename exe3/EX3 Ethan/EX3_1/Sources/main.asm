@@ -79,10 +79,12 @@ fin:
 delay: ; delay function
             pshx ; Store x on stack
             pshy ; Store y on stack
-            ldx #50000
-            ldy #60
+            ldx #60000
+            ldy #50
             
 inner:
+            psha
+            pula
             dbne x, inner ; Decrement x, if not zero then branch
             
             ldx #60000
