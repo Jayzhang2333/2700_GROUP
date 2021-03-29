@@ -142,7 +142,21 @@ Exercise 4 is the integration of Exercise 1, 3 and Exercise 2-Task 4. A string f
 ### Exercise 2:
 The left up bit of the second 7_seg LED has a problem displaying, it requires more than 1 second to light up. The up left of the third and fourth 7_seg also have problems, they light up automatically by themself, we tested it using a project called 7_seg_tb. It can also be observed by the LEDs under 7 seg.
 
-Task2 is included in the following tasks
+**Task 1: Display 4 numbers without using a pointer to the string**
+
+*Modular test:*
+1. Set breakpoint at the end of display each number
+2. Check if the display on 7-seg is correct
+	
+*Integration test:*
+1. Run the code and check if display is correct
+
+**Task 2: Lookup Table**
+
+*Task2 testing plan:*
+1. Set port B output register to $0E (left 7-seg)
+2. Load each value into the port B output register and observe the 7-seg
+3. Check if the lookup table is correct.
 
 **Task3: Press button to change number displayed**
 
